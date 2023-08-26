@@ -1,4 +1,7 @@
 <?php
+session_start();
+require './php/db.php';
+$products = select('SELECT * FROM products');
 ?>
 <!doctype html>
 <html lang="ru">
@@ -13,13 +16,16 @@
     <body>
         <?php require './moduls/header.php'?>
         <div class="container">
-            <div class="item">
-                <img src="" alt="">
-                <h4 class="title_item">Название товара</h4>
-                <div class="rating">4.5⭐</div>
-                <span class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A assumenda cupiditate doloremque dolorum enim!</span>
-                <a href="#">Подробнее</a>
-            </div>
+            <?php foreach ($products as $product): ?>
+                <div class="item">
+                    <img src="" alt="">
+                    <h4 class="title_item"><?= ucfirst($product['title']) ?></h4>
+                    <div class="rating"><?= $product['grade'] ?>⭐</div>
+                    <span class="desc"><?= ucfirst($product['description']) ?></span>
+                    <span class="price"><?= $product['price'] ?>₽</span>
+                    <a href="./pages/product.php?id=<?= $product['id'] ?>">Подробнее</a>
+                </div>
+            <?php endforeach; ?>
         </div>
     </body>
 </html>
